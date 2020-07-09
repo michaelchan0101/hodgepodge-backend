@@ -1,0 +1,23 @@
+if: branch =~ ^master$|^development$
+language: node_js
+os: linux
+sudo: required
+services:
+  - docker
+node_js:
+  - 12
+cache:
+  yarn: true
+
+before_script: |-
+  npm install -g yarn@^1.16.0
+  sudo /etc/init.d/mysql stop
+  yarn docker:up
+  yarn install --frozen-lockfile 
+  cp server/.env.example server/.env
+  # run 10 times; sleep 1 sec each; when socket ok, exit 0, if not, wait 1 sec
+  for run in {1..10}; do nc -nv -w 1 127.0.0.1 3006 && exit 0 || sleep 1 ; done
+
+script: |-
+  yarn lint
+  yarn test:server
