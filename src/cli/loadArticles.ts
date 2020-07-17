@@ -21,7 +21,7 @@ async function getFiles() {
   })
   return { categories, articles }
 }
-async function handler() {
+export async function handler() {
   console.time('loading articles')
   const { categories, articles } = await getFiles()
   const categoryObj = await categoryService.batchCreateCategories(categories)
@@ -34,4 +34,7 @@ async function handler() {
   )
   console.timeEnd('loading articles')
 }
-handler()
+
+export const description = 'load articles'
+
+export const signature = 'loadArticles'
