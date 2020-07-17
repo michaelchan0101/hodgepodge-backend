@@ -11,6 +11,7 @@ type Handle = (ctx: Context, next: Next) => void
 
 export interface RouteMethod {
   title?: string
+  schema: string
   params?: {
     body?: Record<string, any>
     query?: Record<string, any>
