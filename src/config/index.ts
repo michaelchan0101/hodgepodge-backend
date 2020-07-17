@@ -41,4 +41,5 @@ export default {
   cors: {
     origin: credentials.CORS_ORIGIN,
   },
+  adminSecret: credentials.ADMIN_SECRET,
 }

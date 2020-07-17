@@ -4,3 +4,8 @@ export interface AdminResponse {
   createdAt: string
   updatedAt: string
 }
+
+export interface AdminLoginResponse {
+  token: string
+  admin: AdminResponse
+}

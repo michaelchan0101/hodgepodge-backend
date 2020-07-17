@@ -1,8 +1,11 @@
 import { Admin } from '@/models'
-import { AdminResponse } from '@/interfaces/admin'
+import { AdminResponse, AdminLoginResponse } from '@/interfaces/admin'
 import { AdminNotFoundError, AdminExistError } from '@/errors'
-import randomstring from 'randomstring'
 import { encryptPassword } from '@/utils'
+import adminValidator from 'validators/admin.validator'
+
+import randomstring from 'randomstring'
+import { getAdminLoginResponse, getAdminResponse } from '@/transformers/admin.transformer'
 
 async function getAdminByUsername(username: string, needExist = true): Promise<Admin> {
   const admin = await Admin.findOne({ where: { username } })
@@ -23,6 +26,12 @@ export default {
       password: encryptPassword(password, passwordSalt),
       passwordSalt,
     })
-    return admin.getResponse()
+    return getAdminResponse(admin)
+  },
+  async loginAdmin(username: string, password: string): Promise<AdminLoginResponse> {
+    const admin = await Admin.findOne({ where: { username } })
+    adminValidator(admin).exists().password(password)
+    await admin.update({ token: randomstring.generate(32) })
+    return getAdminLoginResponse(admin)
   },
 }

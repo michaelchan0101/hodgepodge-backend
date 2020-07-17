@@ -1,4 +1,24 @@
+import { encryptPassword } from '@/utils'
+import randomstring from 'randomstring'
+
+const passwordSalt1 = randomstring.generate(32)
+const passwordSalt2 = randomstring.generate(32)
 export default {
+  admins: [
+    {
+      id: 1,
+      username: 'user1',
+      token: '123456',
+      password: encryptPassword('123456', passwordSalt1),
+      passwordSalt: passwordSalt1,
+    },
+    {
+      id: 2,
+      username: 'user2',
+      password: encryptPassword('234567', passwordSalt2),
+      passwordSalt: passwordSalt2,
+    },
+  ],
   categories: [
     {
       id: 1,
