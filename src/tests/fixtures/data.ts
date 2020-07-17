@@ -8,7 +8,6 @@ export default {
     {
       id: 1,
       username: 'user1',
-      token: '123456',
       password: encryptPassword('123456', passwordSalt1),
       passwordSalt: passwordSalt1,
     },

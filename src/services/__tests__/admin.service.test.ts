@@ -1,7 +1,12 @@
 import adminService from '../admin.service'
 import { AdminExistError, AdminUsernameOrPasswordError } from '@/errors'
+import fixtures from 'tests/fixtures'
 
 describe('AdminService', () => {
+  beforeAll(async () => {
+    await fixtures.reloadFixtures()
+  })
+
   describe('Login Admin', () => {
     const username = 'user1'
     test('should successfully', async () => {
