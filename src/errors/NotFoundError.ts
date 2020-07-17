@@ -12,3 +12,9 @@ export class ArticleNotFoundError extends NotFoundError {
     super(1, `文章（${id}）不存在`)
   }
 }
+
+export class AdminNotFoundError extends NotFoundError {
+  public constructor(username: string) {
+    super(2, `管理员（${username}）不存在`)
+  }
+}
