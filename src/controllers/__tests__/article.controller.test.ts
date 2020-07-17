@@ -18,14 +18,14 @@ describe('ArticleController', () => {
     username: 'xxx',
   }
   // const fakeHeader = injectHeader({ id: 1, username: 'debug' })
-  test('Endpoint GET /api/v1.0/articles', async () => {
+  test('Endpoint GET /api/client/v1.0/articles', async () => {
     mockedArticleService.listArticles.mockResolvedValueOnce(fakeArticleResp)
     const req = {
       categoryId: 1,
       limit: 10,
       offset: 0,
     }
-    const response: any = await request(app).get('/api/v1.0/articles').query(req)
+    const response: any = await request(app).get('/api/client/v1.0/articles').query(req)
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual(fakeArticleResp)
     expect(mockedArticleService.listArticles).toHaveBeenCalledTimes(1)
@@ -36,9 +36,9 @@ describe('ArticleController', () => {
     )
   })
 
-  test('Endpoint GET /api/v1.0/articles/:id', async () => {
+  test('Endpoint GET /api/client/v1.0/articles/:id', async () => {
     mockedArticleService.getArticle.mockResolvedValueOnce(fakeArticleResp)
-    const response: any = await request(app).get('/api/v1.0/articles/1')
+    const response: any = await request(app).get('/api/client/v1.0/articles/1')
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual(fakeArticleResp)
     expect(mockedArticleService.getArticle).toHaveBeenCalledTimes(1)

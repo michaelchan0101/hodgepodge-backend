@@ -18,10 +18,10 @@ describe('CategoryController', () => {
     username: 'xxx',
   }
   // const fakeHeader = injectHeader({ id: 1, username: 'debug' })
-  test('Endpoint GET /api/v1.0/categories', async () => {
+  test('Endpoint GET /api/client/v1.0/categories', async () => {
     mockedCategoryService.listCategories.mockResolvedValueOnce(fakeCategoryResp)
 
-    const response: any = await request(app).get('/api/v1.0/categories')
+    const response: any = await request(app).get('/api/client/v1.0/categories')
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual(fakeCategoryResp)
     expect(mockedCategoryService.listCategories).toHaveBeenCalledTimes(1)
