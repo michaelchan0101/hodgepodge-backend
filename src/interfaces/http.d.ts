@@ -1,7 +1,7 @@
 import Koa from 'koa'
 
 export interface Context extends Koa.Context {
-  admin?: any
+  user?: any
   auth?: any
 }
 

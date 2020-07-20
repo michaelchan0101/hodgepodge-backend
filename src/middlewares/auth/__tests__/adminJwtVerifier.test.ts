@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken'
 import config from '@/config'
-import clientJwtVerifier from '../adminJwtVerifier'
+import adminJwtVerifier from '../adminJwtVerifier'
 import { JwtVerificationError } from '@/errors'
 
-const { adminSecret: SECRET } = config
+const { adminSecret: SECRET } = config.jwt
 
-describe('clientJwtVerifier', () => {
+describe('adminJwtVerifier', () => {
   const mockPayload1 = {
     id: 1,
     nickname: 'xxx',
@@ -21,7 +21,7 @@ describe('clientJwtVerifier', () => {
       },
       set: jest.fn(),
     }
-    clientJwtVerifier(mockCtx, mockNext)
+    adminJwtVerifier(mockCtx, mockNext)
 
     expect(mockCtx.user.id).toEqual(mockPayload1.id)
     expect(mockCtx.user.nickname).toEqual(mockPayload1.nickname)
@@ -37,7 +37,7 @@ describe('clientJwtVerifier', () => {
       },
       set: jest.fn(),
     }
-    expect(() => clientJwtVerifier(mockCtx, mockNext)).toThrowError(JwtVerificationError)
+    expect(() => adminJwtVerifier(mockCtx, mockNext)).toThrowError(JwtVerificationError)
   })
 
   test('should auto-renew JWT if expired', async () => {
@@ -54,7 +54,7 @@ describe('clientJwtVerifier', () => {
     await new Promise(resolve => {
       setTimeout(resolve, 1000)
     }) // Wait to ensure JWT is expired
-    expect(clientJwtVerifier(mockCtx, mockNext)).toBeUndefined()
+    expect(adminJwtVerifier(mockCtx, mockNext)).toBeUndefined()
     expect(mockCtx.set).not.toHaveBeenCalledWith(
       'Authorization',
       `Bearer ${mockCtx.auth.token}`

@@ -4,10 +4,12 @@ import { Admin } from '@/models'
 import config from '@/config'
 import { AdminResponse, AdminLoginResponse } from '@/interfaces/admin'
 
+const { adminSecret: SECRET } = config.jwt
+
 function genToken(payload: Record<string, unknown>): string {
-  const token = jwt.sign(payload, config.adminSecret, {
+  const token = jwt.sign(payload, SECRET, {
     algorithm: 'HS256',
-    expiresIn: '30d',
+    expiresIn: '12h',
   })
   return `Bearer ${token}`
 }
