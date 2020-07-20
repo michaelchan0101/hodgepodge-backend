@@ -7,7 +7,7 @@ module.exports = {
   up: async queryInterface => {
     await queryInterface.addColumn(TABLE_NAME, 'original_content', {
       type: DataTypes.TEXT,
-      allowNull: flase,
+      allowNull: false,
     })
   },
   down: async queryInterface => {

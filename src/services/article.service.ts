@@ -3,8 +3,10 @@ import {
   ArticleResponse,
   ListArticlesResponse,
   ListArticlesFilter,
+  CreateOrUpdateArticleRequest,
 } from 'interfaces/article'
 import { ArticleNotFoundError } from '@/errors'
+import marked from 'marked'
 
 export default {
   async listArticles(
@@ -17,6 +19,7 @@ export default {
       where.categoryId = filters.categoryId
     }
     const articles = await Article.scope('withCategory').findAll({
+      attributes: { exclude: ['content', 'originalContent'] },
       where,
       limit,
       offset,
@@ -29,10 +32,21 @@ export default {
     }
   },
   async getArticle(id: number): Promise<ArticleResponse> {
-    const article = await Article.scope('withCategory').findByPk(id)
+    const article = await Article.scope('withCategory').findByPk(id, {
+      attributes: { exclude: ['originalContent'] },
+    })
     if (!article) {
       throw new ArticleNotFoundError(id)
     }
+    return article.getResponse()
+  },
+  async createArticle(req: CreateOrUpdateArticleRequest): Promise<ArticleResponse> {
+    const article = await Article.scope('withCategory').create({
+      categoryId: req.categoryId,
+      title: req.title,
+      originalContent: req.content,
+      content: marked(req.content),
+    })
     return article.getResponse()
   },
 }

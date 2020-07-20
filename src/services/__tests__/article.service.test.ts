@@ -1,5 +1,6 @@
 import articleService from 'services/article.service'
 import fixtures from 'tests/fixtures'
+import marked from 'marked'
 
 describe('articleService', () => {
   beforeAll(async () => {
@@ -29,5 +30,20 @@ describe('articleService', () => {
     const article = await articleService.getArticle(1)
     expect(article.id).toEqual(1)
     expect(article.category.id).toEqual(1)
+    expect(article.originalContent).toBeUndefined()
+    expect(article.content).not.toBeUndefined()
+  })
+
+  test('should create article successfully', async () => {
+    const data = {
+      categoryId: 1,
+      title: 'test-1001',
+      content: '#Test\n\nRendered by **marked**.',
+    }
+    const article = await articleService.createArticle(data)
+    expect(article.categoryId).toEqual(data.categoryId)
+    expect(article.title).toEqual(data.title)
+    expect(article.originalContent).toEqual(data.content)
+    expect(article.content).toEqual(marked(data.content))
   })
 })
