@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_HODGEPODGE_ENV=development  nodemon src/index.ts --exec ts-node",
+    "dev": "cross-env NODE_HODGEPODGE_ENV=development nodemon src/index.ts --exec ts-node",
     "build": "rm -rf dist && tsc && cp -rf src/migrations dist/migrations",
-    "test": "jest --runInBand",
+    "test": "cross-env NODE_HODGEPODGE_ENV=test jest --runInBand",
     "test:watch": "yarn test --watch",
     "start": "next start",
     "tsc:config": "tsc --listFiles"

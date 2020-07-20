@@ -1,6 +1,6 @@
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
-import logger from 'koa-logger'
+import koaLogger from 'koa-logger'
 import { getRouters } from './routers'
 import { generalErrorHandler } from 'middlewares/errorHandler'
 import { ResourceNotFoundError } from '@/errors'
@@ -8,7 +8,13 @@ import config from '@/config'
 
 export async function createApiServer(): Promise<Koa> {
   const app = new Koa()
-  app.use(logger())
+  app.use(
+    koaLogger((str, args) => {
+      if (!config.isTest) {
+        console.log(str)
+      }
+    })
+  )
   app.use(
     bodyParser({
       enableTypes: ['json', 'form'],
@@ -29,7 +35,7 @@ export async function createApiServer(): Promise<Koa> {
     }
   })
   app.use(generalErrorHandler)
-  app.use(getRouters())
+  getRouters().forEach(routeFunc => app.use(routeFunc))
   app.use(ctx => {
     throw new ResourceNotFoundError(ctx.request)
   })

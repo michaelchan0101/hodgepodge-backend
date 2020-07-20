@@ -2,6 +2,8 @@ import { Context, Next } from 'interfaces/http'
 import { InvalidAuthHeaderError } from 'errors'
 import AUTH_SCHEMA from 'enums/apiSchema'
 import adminJwtVerifier from './adminJwtVerifier'
+import debugJwtVerifier from './debugJwtVerifier'
+import config from '@/config'
 
 export default (schema: string) => (ctx: Context, next: Next) => {
   if (schema === AUTH_SCHEMA.PUBLIC) {
@@ -26,7 +28,9 @@ export default (schema: string) => (ctx: Context, next: Next) => {
     throw new InvalidAuthHeaderError('Missing Auth-Schema header')
   }
   reqSchema = reqSchema.trim().toUpperCase()
-  if (reqSchema === AUTH_SCHEMA.ADMIN && reqSchema === schema) {
+  if (reqSchema === AUTH_SCHEMA.DEBUG && (config.isDev || config.isTest)) {
+    return debugJwtVerifier(ctx, next)
+  } else if (reqSchema === AUTH_SCHEMA.ADMIN && reqSchema === schema) {
     return adminJwtVerifier(ctx, next)
   }
   throw new InvalidAuthHeaderError('Schema mismatch!')
