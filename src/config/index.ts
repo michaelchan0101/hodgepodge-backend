@@ -41,5 +41,9 @@ export default {
   cors: {
     origin: credentials.CORS_ORIGIN,
   },
+  jwt: {
+    adminSecret: credentials.ADMIN_SECRET,
+    debugSecret: credentials.DEBUG_SECRET,
+  },
   adminSecret: credentials.ADMIN_SECRET,
 }
