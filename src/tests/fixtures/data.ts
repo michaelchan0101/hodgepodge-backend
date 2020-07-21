@@ -23,7 +23,7 @@ export default {
       id: 1,
       name: 'category 1',
       isShowInMenu: true,
-      sort: 1,
+      sort: 3,
     },
     {
       id: 2,
@@ -35,7 +35,7 @@ export default {
       id: 3,
       name: 'category 3',
       isShowInMenu: true,
-      sort: 3,
+      sort: 2,
     },
     {
       id: 4,
