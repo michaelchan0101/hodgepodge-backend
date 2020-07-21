@@ -80,7 +80,9 @@ function commandWrapper(commandObject, path, filename) {
 
 // main function
 function main() {
-  const isStagingOrProd = ['staging', 'production'].includes(process.env.NODE_HODGEPODGE_ENV)
+  const isStagingOrProd = ['staging', 'production'].includes(
+    process.env.NODE_HODGEPODGE_ENV
+  )
   // transpile source code when dev
   let ext = 'js'
   if (!isStagingOrProd) {
@@ -90,10 +92,11 @@ function main() {
     ext = 'ts'
   }
 
+  require(isStagingOrProd ? '../dist/utils/modulesAlias' : '../src/utils/modulesAlias')
   const cmdDir = isStagingOrProd ? '../dist/cli' : '../src/cli'
 
   yargs
-    .commandDir(cmdDir, { visit: commandWrapper, extensions: [ext], })
+    .commandDir(cmdDir, { visit: commandWrapper, extensions: [ext] })
     .demandCommand(1)
     .strict()
     .showHelpOnFail()
