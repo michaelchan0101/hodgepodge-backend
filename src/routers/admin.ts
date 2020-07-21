@@ -1,6 +1,7 @@
 import { RouteOptions } from 'interfaces/http'
 import Joi from '@hapi/joi'
 import adminController from 'controllers/admin.controller'
+import articleController from 'controllers/article.controller'
 import { AUTH_SCHEMA } from 'enums/apiSchema'
 
 const routes: Array<RouteOptions> = [
@@ -30,6 +31,33 @@ const routes: Array<RouteOptions> = [
         },
       },
       handle: adminController.createAdmin,
+    },
+  },
+  {
+    path: 'articles',
+    get: {
+      title: '文章列表',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        query: {
+          limit: Joi.number().empty(),
+          offset: Joi.number().empty(),
+          categoryId: Joi.number().empty(),
+        },
+      },
+      handle: articleController.adminListArticles,
+    },
+    post: {
+      title: '添加文章',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        body: {
+          title: Joi.string().min(1).required(),
+          categoryId: Joi.number().min(1).required(),
+          content: Joi.string().required(),
+        },
+      },
+      handle: articleController.adminCreateArticle,
     },
   },
 ]
