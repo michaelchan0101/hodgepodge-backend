@@ -22,14 +22,20 @@ export default {
     {
       id: 1,
       name: 'category 1',
+      isShowInMenu: true,
+      sort: 1,
     },
     {
       id: 2,
       name: 'category 2',
+      isShowInMenu: true,
+      sort: 2,
     },
     {
       id: 3,
       name: 'category 3',
+      isShowInMenu: true,
+      sort: 3,
     },
     {
       id: 4,
