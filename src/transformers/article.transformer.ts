@@ -8,6 +8,7 @@ export function getArticleResponse(article: Article): ArticleResponse {
     categoryId: article.categoryId,
     title: article.title,
     content: article.content,
+    originalContent: article.originalContent,
     category: article.Category?.response,
     createdAt: moment(article.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment(article.updatedAt).format('YYYY-MM-DD HH:mm:ss'),

@@ -1,7 +1,6 @@
 import articleService from 'services/article.service'
 import fixtures from 'tests/fixtures'
-import config from '@/config'
-import path from 'path'
+import marked from 'marked'
 
 describe('articleService', () => {
   beforeAll(async () => {
@@ -31,19 +30,34 @@ describe('articleService', () => {
     const article = await articleService.getArticle(1)
     expect(article.id).toEqual(1)
     expect(article.category.id).toEqual(1)
+    expect(article.originalContent).toBeUndefined()
+    expect(article.content).not.toBeUndefined()
   })
 
-  test('should batch import articles successfully', async () => {
-    const exampleData = [
-      {
-        categoryId: 1,
-        title: 'V8 垃圾回收机制',
-        path: path.join(config.article.basePath, 'javascript', 'V8 垃圾回收机制.md'),
-      },
-    ]
-    const articles = await articleService.batchImportArticles(exampleData)
-    expect(articles).toHaveLength(exampleData.length)
-    expect(articles[0].title).toEqual(exampleData[0].title)
-    expect(articles[0].createdAt).toEqual(articles[0].updatedAt)
+  test('should create article successfully', async () => {
+    const data = {
+      categoryId: 1,
+      title: 'test-1001',
+      content: '#Test\n\nRendered by **marked**.',
+    }
+    const article = await articleService.adminCreateArticle(data)
+    expect(article.categoryId).toEqual(data.categoryId)
+    expect(article.title).toEqual(data.title)
+    expect(article.originalContent).toEqual(data.content)
+    expect(article.content).toEqual(marked(data.content))
+  })
+
+  test('should update article successfully', async () => {
+    const data = {
+      categoryId: 1,
+      title: 'test-1',
+      content: '#Test\n\nRendered by **marked**.',
+    }
+    const article = await articleService.adminUpdateArticle(1, data)
+    expect(article.id).toEqual(1)
+    expect(article.categoryId).toEqual(data.categoryId)
+    expect(article.title).toEqual(data.title)
+    expect(article.originalContent).toEqual(data.content)
+    expect(article.content).toEqual(marked(data.content))
   })
 })

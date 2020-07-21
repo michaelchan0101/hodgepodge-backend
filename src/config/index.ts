@@ -5,6 +5,8 @@ import path from 'path'
 const credentials = envParser(__dirname, '../../', '.env')
 
 export default {
+  isDev: process.env.NODE_HODGEPODGE_ENV === 'development',
+  isTest: process.env.NODE_HODGEPODGE_ENV === 'test',
   database: {
     database: credentials.DB_DATABASE || 'express_fast_frameword',
     username: credentials.DB_USER || 'general-user',
@@ -41,4 +43,9 @@ export default {
   cors: {
     origin: credentials.CORS_ORIGIN,
   },
+  jwt: {
+    adminSecret: credentials.ADMIN_SECRET,
+    debugSecret: credentials.DEBUG_SECRET,
+  },
+  adminSecret: credentials.ADMIN_SECRET,
 }

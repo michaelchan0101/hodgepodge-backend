@@ -22,12 +22,17 @@ const scheme = {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  originalContent: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
 }
 
 export class Article extends Model {
   public id!: number
   public title!: string
   public content!: string
+  public originalContent!: string
   public categoryId!: number
   public readonly Category!: Category | null
   public readonly createdAt!: Date

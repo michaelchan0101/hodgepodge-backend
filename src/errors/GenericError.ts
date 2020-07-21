@@ -35,3 +35,15 @@ export class ResourceNotFoundError extends GenericError {
     super(404, 3, `resource not found in server:${req.method}:${req.path}`)
   }
 }
+
+export class InvalidAuthHeaderError extends GenericError {
+  constructor(message?: string) {
+    super(400, 4, 'Invalid header!', message)
+  }
+}
+
+export class JwtVerificationError extends GenericError {
+  constructor(err: any) {
+    super(401, 5, '鉴权失败', `${err.name}: ${err.message}`)
+  }
+}

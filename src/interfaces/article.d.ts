@@ -10,14 +10,14 @@ export interface CreateOrUpdateArticleRequest {
   categoryId: number
   title: string
   content: string
-  updatedAt: Date
 }
 
 export interface ArticleResponse {
   id: number
   categoryId: number
   title: string
-  content: string
+  content?: string
+  originalContent?: string
   category?: CategoryResponse
   createdAt: string
   updatedAt: string

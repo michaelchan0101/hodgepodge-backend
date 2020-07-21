@@ -1,0 +1,105 @@
+#!/usr/bin/env node
+
+const chalk = require('chalk')
+const path = require('path')
+const _ = require('lodash')
+const yargs = require('yargs')
+
+// transcompile flow-typed code
+
+function calculateDeltaTime(startTime, precision = 2) {
+  const [s1, ns1] = startTime
+  const [s2, ns2] = process.hrtime()
+
+  const deltaTime = (s2 - s1 + (ns2 - ns1) / 1e9).toFixed(precision)
+  return deltaTime
+}
+
+// commandWrapper: wrap command configurations to yargs'
+// recognizable options
+function commandWrapper(commandObject, path, filename) {
+  const { params, signature, alias, builder, handle } = commandObject
+  const newCommandObject = {
+    command: signature,
+    aliases: alias,
+    builder(_yargs) {
+      // load params if key: options exists
+      if (params) {
+        Object.keys(params).forEach(key => {
+          const optParam = _.pick(params[key], [
+            'alias',
+            'description',
+            'demandOption',
+            'default',
+          ])
+          _yargs = _yargs.option(key, optParam)
+        })
+      }
+      // execute original builder function
+      if (builder) {
+        _yargs = builder(_yargs)
+      }
+
+      return _yargs
+    },
+    handler(argv) {
+      // we use this handler to wrap original handler
+      // with additional log 'witness the life of a command'
+
+      // start timer
+      const hr1 = process.hrtime()
+      const args = argv._.join(' ')
+      console.log('Going to execute command: %s', chalk.yellow(args))
+      if (handle) {
+        return handle(argv)
+          .then(() =>
+            // show success log
+            console.log(
+              'Execute command SUCCESS in %ss',
+              chalk.blue(calculateDeltaTime(hr1))
+            )
+          )
+          .catch(err => {
+            // show error log
+            // TODO: use logger to print error stack!
+            console.error(err)
+            console.error(
+              'Execute command FAIL in %ss',
+              chalk.blue(calculateDeltaTime(hr1))
+            )
+          })
+      }
+
+      console.log('Execute command success but NOTHING executed :-(')
+      return null
+    },
+  }
+
+  return Object.assign(commandObject, newCommandObject)
+}
+
+// main function
+function main() {
+  const isStagingOrProd = ['staging', 'production'].includes(process.env.NODE_HODGEPODGE_ENV)
+  // transpile source code when dev
+  let ext = 'js'
+  if (!isStagingOrProd) {
+    require('ts-node').register({
+      dir: path.join(__dirname, '../'), // cwd: root directory
+    })
+    ext = 'ts'
+  }
+
+  const cmdDir = isStagingOrProd ? '../dist/cli' : '../src/cli'
+
+  yargs
+    .commandDir(cmdDir, { visit: commandWrapper, extensions: [ext], })
+    .demandCommand(1)
+    .strict()
+    .showHelpOnFail()
+    .alias('h', 'help')
+    .parse()
+}
+
+// execute main function
+main()

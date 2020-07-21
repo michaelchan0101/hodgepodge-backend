@@ -2,13 +2,14 @@ import { RouteOptions } from 'interfaces/http'
 import Joi from '@hapi/joi'
 import articleController from 'controllers/article.controller'
 import categoryController from 'controllers/category.controller'
-import configController from 'controllers/config.controller'
+import { AUTH_SCHEMA } from 'enums/apiSchema'
 
 const routes: Array<RouteOptions> = [
   {
-    path: '/articles',
+    path: 'articles',
     get: {
       title: '文章列表',
+      schema: AUTH_SCHEMA.PUBLIC,
       params: {
         query: {
           categoryId: Joi.number().empty(),
@@ -20,29 +21,25 @@ const routes: Array<RouteOptions> = [
     },
   },
   {
-    path: '/articles/:id(\\d+)',
+    path: 'articles/:id(\\d+)',
     get: {
       title: '文章详情',
+      schema: AUTH_SCHEMA.PUBLIC,
       handle: articleController.getArticle,
     },
   },
   {
-    path: '/categories',
+    path: 'categories',
     get: {
       title: '分类列表',
+      schema: AUTH_SCHEMA.PUBLIC,
       handle: categoryController.listCategories,
-    },
-  },
-  {
-    path: '/config',
-    get: {
-      title: '网站配置',
-      handle: configController.getConfig,
     },
   },
 ]
 
 export default {
   version: 'v1.0',
+  type: 'client',
   routes,
 }

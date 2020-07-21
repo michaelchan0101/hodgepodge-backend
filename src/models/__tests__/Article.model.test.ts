@@ -5,6 +5,7 @@ describe('Article Model', () => {
     const exampleData = {
       title: 'category 1',
       content: '<div>1</div>',
+      originalContent: '#1',
       categoryId: 1,
     }
 
@@ -12,5 +13,6 @@ describe('Article Model', () => {
     expect(result.title).toEqual(exampleData.title)
     expect(result.content).toEqual(exampleData.content)
     expect(result.categoryId).toEqual(exampleData.categoryId)
+    expect(result.originalContent).toEqual(exampleData.originalContent)
   })
 })
