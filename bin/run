@@ -92,7 +92,7 @@ function main() {
     ext = 'ts'
   }
 
-  require(isStagingOrProd ? '../src/utils/modulesAlias' : '../dist/utils/modulesAlias')
+  require(isStagingOrProd ? '../dist/utils/modulesAlias' : '../src/utils/modulesAlias')
   const cmdDir = isStagingOrProd ? '../dist/cli' : '../src/cli'
 
   yargs
