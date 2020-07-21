@@ -41,6 +41,7 @@ describe('ArticleController', () => {
       )
       mockedArticleService.listArticles.mockClear()
     })
+
     test('Endpoint POST /api/admin/v1.0/articles', async () => {
       mockedArticleService.createArticle.mockResolvedValueOnce(fakeArticleResp)
       const req = {
@@ -59,6 +60,7 @@ describe('ArticleController', () => {
       expect(mockedArticleService.createArticle).toBeCalledWith(req)
     })
   })
+
   test('Endpoint GET /api/client/v1.0/articles', async () => {
     mockedArticleService.listArticles.mockResolvedValueOnce(fakeArticleResp)
     const req = {

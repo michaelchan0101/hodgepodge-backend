@@ -2,6 +2,7 @@ import { RouteOptions } from 'interfaces/http'
 import Joi from '@hapi/joi'
 import adminController from 'controllers/admin.controller'
 import articleController from 'controllers/article.controller'
+import categoryController from 'controllers/category.controller'
 import { AUTH_SCHEMA } from 'enums/apiSchema'
 
 const routes: Array<RouteOptions> = [
@@ -58,6 +59,33 @@ const routes: Array<RouteOptions> = [
         },
       },
       handle: articleController.adminCreateArticle,
+    },
+  },
+  {
+    path: 'categories',
+    get: {
+      title: '分类列表',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        query: {
+          limit: Joi.number().empty(),
+          offset: Joi.number().empty(),
+          categoryId: Joi.number().empty(),
+        },
+      },
+      handle: categoryController.adminListCategories,
+    },
+    post: {
+      title: '添加分类',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        body: {
+          name: Joi.string().min(1).required(),
+          isShowInMenu: Joi.boolean().required(),
+          sort: Joi.number().required(),
+        },
+      },
+      handle: categoryController.adminCreateCategory,
     },
   },
 ]
