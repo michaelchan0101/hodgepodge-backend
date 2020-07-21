@@ -1,5 +1,14 @@
 import { Category } from '@/models'
 import { CategoryResponse, CreateCategoryRequest } from 'interfaces/category'
+import { CategoryNotFoundError } from '@/errors'
+
+async function getCategoryById(id: number): Promise<Category> {
+  const category = await Category.findByPk(id)
+  if (!category) {
+    throw new CategoryNotFoundError(id)
+  }
+  return category
+}
 
 export default {
   async listCategories(): Promise<{ categories: Array<CategoryResponse> }> {
@@ -24,6 +33,18 @@ export default {
   },
   async adminCreateCategory(req: CreateCategoryRequest): Promise<CategoryResponse> {
     const category = await Category.create({
+      name: req.name,
+      isShowInMenu: req.isShowInMenu,
+      sort: req.sort,
+    })
+    return category.getResponse()
+  },
+  async adminUpdateCategory(
+    id: number,
+    req: CreateCategoryRequest
+  ): Promise<CategoryResponse> {
+    const category = await getCategoryById(id)
+    await category.update({
       name: req.name,
       isShowInMenu: req.isShowInMenu,
       sort: req.sort,

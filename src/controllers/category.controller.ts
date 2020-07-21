@@ -1,4 +1,5 @@
 import { Context } from 'interfaces/http'
+import { string2number } from '@/utils'
 import categoryService from 'services/category.service'
 
 export default {
@@ -11,5 +12,13 @@ export default {
   async adminCreateCategory(ctx: Context) {
     const { name, isShowInMenu, sort } = ctx.request.body
     ctx.body = await categoryService.adminCreateCategory({ name, isShowInMenu, sort })
+  },
+  async adminUpdateCategory(ctx: Context) {
+    const { name, isShowInMenu, sort } = ctx.request.body
+    ctx.body = await categoryService.adminUpdateCategory(string2number(ctx.params.id), {
+      name,
+      isShowInMenu,
+      sort,
+    })
   },
 }

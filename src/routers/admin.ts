@@ -88,6 +88,21 @@ const routes: Array<RouteOptions> = [
       handle: categoryController.adminCreateCategory,
     },
   },
+  {
+    path: 'categories/:id(\\d+)',
+    patch: {
+      title: '分类列表',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        body: {
+          name: Joi.string().min(1).required(),
+          isShowInMenu: Joi.boolean().required(),
+          sort: Joi.number().required(),
+        },
+      },
+      handle: categoryController.adminUpdateCategory,
+    },
+  },
 ]
 
 export default {

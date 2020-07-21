@@ -18,3 +18,9 @@ export class AdminNotFoundError extends NotFoundError {
     super(2, `管理员（${username}）不存在`)
   }
 }
+
+export class CategoryNotFoundError extends NotFoundError {
+  public constructor(id: number) {
+    super(3, `分类（${id}）不存在`)
+  }
+}

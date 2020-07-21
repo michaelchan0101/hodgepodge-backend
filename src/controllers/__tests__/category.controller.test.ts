@@ -54,6 +54,24 @@ describe('CategoryController', () => {
       expect(mockedCategoryService.adminCreateCategory).toHaveBeenCalledTimes(1)
       expect(mockedCategoryService.adminCreateCategory).toBeCalledWith(req)
     })
+
+    test('Endpoint PATCH /api/admin/v1.0/categories/:id', async () => {
+      mockedCategoryService.adminUpdateCategory.mockResolvedValueOnce(fakeCategoryResp)
+      const req = {
+        sort: 1,
+        name: 'test',
+        isShowInMenu: true,
+      }
+      const response: any = await request(app)
+        .patch('/api/admin/v1.0/categories/1')
+        .set('Authorization', fakeHeader.token)
+        .set('Auth-Schema', fakeHeader.schema)
+        .send(req)
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual(fakeCategoryResp)
+      expect(mockedCategoryService.adminUpdateCategory).toHaveBeenCalledTimes(1)
+      expect(mockedCategoryService.adminUpdateCategory).toBeCalledWith(1, req)
+    })
   })
 
   test('Endpoint GET /api/client/v1.0/categories', async () => {

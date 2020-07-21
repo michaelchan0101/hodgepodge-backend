@@ -31,4 +31,17 @@ describe('CategoryService', () => {
     expect(category.isShowInMenu).toEqual(data.isShowInMenu)
     expect(category.sort).toEqual(data.sort)
   })
+
+  test('should update category successfully', async () => {
+    const data = {
+      name: 'test-1',
+      isShowInMenu: true,
+      sort: 1,
+    }
+    const category = await categoryService.adminUpdateCategory(1, data)
+    expect(category.id).toEqual(1)
+    expect(category.name).toEqual(data.name)
+    expect(category.isShowInMenu).toEqual(data.isShowInMenu)
+    expect(category.sort).toEqual(data.sort)
+  })
 })
