@@ -7,8 +7,7 @@
     "build": "rm -rf dist && tsc && cp -rf src/migrations dist/migrations",
     "test": "cross-env NODE_HODGEPODGE_ENV=test jest --runInBand",
     "test:watch": "yarn test --watch",
-    "start": "next start",
-    "tsc:config": "tsc --listFiles"
+    "start": "pm2 start pm2.config.js --env production"
   },
   "husky": {
     "hooks": {
