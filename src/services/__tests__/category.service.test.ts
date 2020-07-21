@@ -13,12 +13,15 @@ describe('CategoryService', () => {
     expect(results.categories[1].id).toEqual(4)
   })
 
-  test('should batch create category successfully', async () => {
-    const names = ['category-1', 'category-2', 'category-3', 'category-4']
-    const categoryObj = await categoryService.batchCreateCategories(names)
-    expect(Object.keys(categoryObj)).toHaveLength(names.length)
-    names.forEach(name => {
-      expect(categoryObj[name].name).toEqual(name)
-    })
+  test('should create category successfully', async () => {
+    const data = {
+      name: 'test-1001',
+      isShowInMenu: false,
+      sort: 1,
+    }
+    const category = await categoryService.createCategory(data)
+    expect(category.name).toEqual(data.name)
+    expect(category.isShowInMenu).toEqual(data.isShowInMenu)
+    expect(category.sort).toEqual(data.sort)
   })
 })
