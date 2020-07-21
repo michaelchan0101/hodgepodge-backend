@@ -40,7 +40,21 @@ describe('articleService', () => {
       title: 'test-1001',
       content: '#Test\n\nRendered by **marked**.',
     }
-    const article = await articleService.createArticle(data)
+    const article = await articleService.adminCreateArticle(data)
+    expect(article.categoryId).toEqual(data.categoryId)
+    expect(article.title).toEqual(data.title)
+    expect(article.originalContent).toEqual(data.content)
+    expect(article.content).toEqual(marked(data.content))
+  })
+
+  test('should update article successfully', async () => {
+    const data = {
+      categoryId: 1,
+      title: 'test-1',
+      content: '#Test\n\nRendered by **marked**.',
+    }
+    const article = await articleService.adminUpdateArticle(1, data)
+    expect(article.id).toEqual(1)
     expect(article.categoryId).toEqual(data.categoryId)
     expect(article.title).toEqual(data.title)
     expect(article.originalContent).toEqual(data.content)

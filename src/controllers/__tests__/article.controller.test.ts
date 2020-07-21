@@ -43,7 +43,7 @@ describe('ArticleController', () => {
     })
 
     test('Endpoint POST /api/admin/v1.0/articles', async () => {
-      mockedArticleService.createArticle.mockResolvedValueOnce(fakeArticleResp)
+      mockedArticleService.adminCreateArticle.mockResolvedValueOnce(fakeArticleResp)
       const req = {
         categoryId: 1,
         title: 'test',
@@ -56,8 +56,25 @@ describe('ArticleController', () => {
         .send(req)
       expect(response.statusCode).toBe(200)
       expect(response.body).toEqual(fakeArticleResp)
-      expect(mockedArticleService.createArticle).toHaveBeenCalledTimes(1)
-      expect(mockedArticleService.createArticle).toBeCalledWith(req)
+      expect(mockedArticleService.adminCreateArticle).toHaveBeenCalledTimes(1)
+      expect(mockedArticleService.adminCreateArticle).toBeCalledWith(req)
+    })
+    test('Endpoint PATCH /api/admin/v1.0/articles/:id', async () => {
+      mockedArticleService.adminUpdateArticle.mockResolvedValueOnce(fakeArticleResp)
+      const req = {
+        categoryId: 1,
+        title: 'test',
+        content: 'test',
+      }
+      const response: any = await request(app)
+        .patch('/api/admin/v1.0/articles/1')
+        .set('Authorization', fakeHeader.token)
+        .set('Auth-Schema', fakeHeader.schema)
+        .send(req)
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual(fakeArticleResp)
+      expect(mockedArticleService.adminUpdateArticle).toHaveBeenCalledTimes(1)
+      expect(mockedArticleService.adminUpdateArticle).toBeCalledWith(1, req)
     })
   })
 

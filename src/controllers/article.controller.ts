@@ -24,6 +24,14 @@ export default {
   },
   async adminCreateArticle(ctx: Context) {
     const { title, categoryId, content } = ctx.request.body
-    ctx.body = await articleService.createArticle({ title, categoryId, content })
+    ctx.body = await articleService.adminCreateArticle({ title, categoryId, content })
+  },
+  async adminUpdateArticle(ctx: Context) {
+    const { title, categoryId, content } = ctx.request.body
+    ctx.body = await articleService.adminUpdateArticle(string2number(ctx.params.id), {
+      title,
+      categoryId,
+      content,
+    })
   },
 }

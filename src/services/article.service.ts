@@ -8,6 +8,16 @@ import {
 import { ArticleNotFoundError } from '@/errors'
 import marked from 'marked'
 
+async function getArticleById(id: number): Promise<Article> {
+  const article = await Article.scope('withCategory').findByPk(id, {
+    attributes: { exclude: ['originalContent'] },
+  })
+  if (!article) {
+    throw new ArticleNotFoundError(id)
+  }
+  return article
+}
+
 export default {
   async listArticles(
     filters: ListArticlesFilter = {},
@@ -40,8 +50,21 @@ export default {
     }
     return article.getResponse()
   },
-  async createArticle(req: CreateOrUpdateArticleRequest): Promise<ArticleResponse> {
+  async adminCreateArticle(req: CreateOrUpdateArticleRequest): Promise<ArticleResponse> {
     const article = await Article.scope('withCategory').create({
+      categoryId: req.categoryId,
+      title: req.title,
+      originalContent: req.content,
+      content: marked(req.content),
+    })
+    return article.getResponse()
+  },
+  async adminUpdateArticle(
+    id: number,
+    req: CreateOrUpdateArticleRequest
+  ): Promise<ArticleResponse> {
+    const article = await getArticleById(id)
+    await article.update({
       categoryId: req.categoryId,
       title: req.title,
       originalContent: req.content,

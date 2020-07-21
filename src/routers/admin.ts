@@ -62,6 +62,21 @@ const routes: Array<RouteOptions> = [
     },
   },
   {
+    path: 'articles/:id(\\d+)',
+    patch: {
+      title: '修改文章',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        body: {
+          title: Joi.string().min(1).required(),
+          categoryId: Joi.number().min(1).required(),
+          content: Joi.string().required(),
+        },
+      },
+      handle: articleController.adminUpdateArticle,
+    },
+  },
+  {
     path: 'categories',
     get: {
       title: '分类列表',
@@ -91,7 +106,7 @@ const routes: Array<RouteOptions> = [
   {
     path: 'categories/:id(\\d+)',
     patch: {
-      title: '分类列表',
+      title: '修改分类',
       schema: AUTH_SCHEMA.ADMIN,
       params: {
         body: {
