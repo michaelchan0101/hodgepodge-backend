@@ -63,6 +63,11 @@ const routes: Array<RouteOptions> = [
   },
   {
     path: 'articles/:id(\\d+)',
+    get: {
+      title: '文章详情',
+      schema: AUTH_SCHEMA.ADMIN,
+      handle: articleController.adminGetArticle,
+    },
     patch: {
       title: '修改文章',
       schema: AUTH_SCHEMA.ADMIN,

@@ -22,6 +22,9 @@ export default {
       string2number(offset)
     )
   },
+  async adminGetArticle(ctx: Context) {
+    ctx.body = await articleService.getArticle(string2number(ctx.params.id))
+  },
   async adminCreateArticle(ctx: Context) {
     const { title, categoryId, content } = ctx.request.body
     ctx.body = await articleService.adminCreateArticle({ title, categoryId, content })
