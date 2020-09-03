@@ -50,6 +50,15 @@ export default {
     }
     return article.getResponse()
   },
+  async adminGetArticle(id: number): Promise<ArticleResponse> {
+    const article = await Article.scope('withCategory').findByPk(id, {
+      attributes: { exclude: ['content'] },
+    })
+    if (!article) {
+      throw new ArticleNotFoundError(id)
+    }
+    return article.getResponse()
+  },
   async adminCreateArticle(req: CreateOrUpdateArticleRequest): Promise<ArticleResponse> {
     const article = await Article.scope('withCategory').create({
       categoryId: req.categoryId,

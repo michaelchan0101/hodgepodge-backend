@@ -43,16 +43,16 @@ describe('ArticleController', () => {
     })
 
     test('Endpoint GET /api/admin/v1.0/articles/:id', async () => {
-      mockedArticleService.getArticle.mockResolvedValueOnce(fakeArticleResp)
+      mockedArticleService.adminGetArticle.mockResolvedValueOnce(fakeArticleResp)
       const response: any = await request(app)
         .get('/api/admin/v1.0/articles/1')
         .set('Authorization', fakeHeader.token)
         .set('Auth-Schema', fakeHeader.schema)
       expect(response.statusCode).toBe(200)
       expect(response.body).toEqual(fakeArticleResp)
-      expect(mockedArticleService.getArticle).toHaveBeenCalledTimes(1)
-      expect(mockedArticleService.getArticle).toBeCalledWith(1)
-      mockedArticleService.getArticle.mockClear()
+      expect(mockedArticleService.adminGetArticle).toHaveBeenCalledTimes(1)
+      expect(mockedArticleService.adminGetArticle).toBeCalledWith(1)
+      mockedArticleService.adminGetArticle.mockClear()
     })
 
     test('Endpoint POST /api/admin/v1.0/articles', async () => {

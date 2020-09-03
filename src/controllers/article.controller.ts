@@ -23,7 +23,7 @@ export default {
     )
   },
   async adminGetArticle(ctx: Context) {
-    ctx.body = await articleService.getArticle(string2number(ctx.params.id))
+    ctx.body = await articleService.adminGetArticle(string2number(ctx.params.id))
   },
   async adminCreateArticle(ctx: Context) {
     const { title, categoryId, content } = ctx.request.body
