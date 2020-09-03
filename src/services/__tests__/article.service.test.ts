@@ -34,6 +34,14 @@ describe('articleService', () => {
     expect(article.content).not.toBeUndefined()
   })
 
+  test('should admin get one article successfully', async () => {
+    const article = await articleService.adminGetArticle(1)
+    expect(article.id).toEqual(1)
+    expect(article.category.id).toEqual(1)
+    expect(article.content).toBeUndefined()
+    expect(article.originalContent).not.toBeUndefined()
+  })
+
   test('should create article successfully', async () => {
     const data = {
       categoryId: 1,
