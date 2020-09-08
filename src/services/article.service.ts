@@ -81,4 +81,8 @@ export default {
     })
     return article.getResponse()
   },
+  async deleteArticle(id: number): Promise<void> {
+    const article = await getArticleById(id)
+    await article.destroy()
+  },
 }

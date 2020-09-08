@@ -1,6 +1,7 @@
 import articleService from 'services/article.service'
 import fixtures from 'tests/fixtures'
 import marked from 'marked'
+import { Article } from '@/models'
 
 describe('articleService', () => {
   beforeAll(async () => {
@@ -67,5 +68,11 @@ describe('articleService', () => {
     expect(article.title).toEqual(data.title)
     expect(article.originalContent).toEqual(data.content)
     expect(article.content).toEqual(marked(data.content))
+  })
+
+  test('should delete article successfully', async () => {
+    await articleService.deleteArticle(1)
+    const article = await Article.findByPk(1)
+    expect(article).toBeNull()
   })
 })
