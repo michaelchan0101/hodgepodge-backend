@@ -37,4 +37,8 @@ export default {
       content,
     })
   },
+  async adminDeleteArticle(ctx: Context) {
+    await articleService.deleteArticle(string2number(ctx.params.id))
+    ctx.body = {}
+  },
 }

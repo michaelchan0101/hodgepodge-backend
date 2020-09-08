@@ -72,6 +72,7 @@ describe('ArticleController', () => {
       expect(mockedArticleService.adminCreateArticle).toHaveBeenCalledTimes(1)
       expect(mockedArticleService.adminCreateArticle).toBeCalledWith(req)
     })
+
     test('Endpoint PATCH /api/admin/v1.0/articles/:id', async () => {
       mockedArticleService.adminUpdateArticle.mockResolvedValueOnce(fakeArticleResp)
       const req = {
@@ -88,6 +89,18 @@ describe('ArticleController', () => {
       expect(response.body).toEqual(fakeArticleResp)
       expect(mockedArticleService.adminUpdateArticle).toHaveBeenCalledTimes(1)
       expect(mockedArticleService.adminUpdateArticle).toBeCalledWith(1, req)
+    })
+
+    test('Endpoint DELETE /api/admin/v1.0/articles/:id', async () => {
+      mockedArticleService.deleteArticle.mockResolvedValueOnce()
+      const response: any = await request(app)
+        .delete('/api/admin/v1.0/articles/1')
+        .set('Authorization', fakeHeader.token)
+        .set('Auth-Schema', fakeHeader.schema)
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual({})
+      expect(mockedArticleService.deleteArticle).toHaveBeenCalledTimes(1)
+      expect(mockedArticleService.deleteArticle).toBeCalledWith(1)
     })
   })
 

@@ -80,6 +80,11 @@ const routes: Array<RouteOptions> = [
       },
       handle: articleController.adminUpdateArticle,
     },
+    delete: {
+      title: '删除文章',
+      schema: AUTH_SCHEMA.ADMIN,
+      handle: articleController.adminDeleteArticle,
+    },
   },
   {
     path: 'categories',
