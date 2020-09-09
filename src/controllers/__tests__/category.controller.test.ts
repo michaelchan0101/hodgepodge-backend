@@ -72,6 +72,18 @@ describe('CategoryController', () => {
       expect(mockedCategoryService.adminUpdateCategory).toHaveBeenCalledTimes(1)
       expect(mockedCategoryService.adminUpdateCategory).toBeCalledWith(1, req)
     })
+
+    test('Endpoint DELETE /api/admin/v1.0/categories/:id', async () => {
+      mockedCategoryService.deleteCategory.mockResolvedValueOnce(undefined)
+      const response: any = await request(app)
+        .delete('/api/admin/v1.0/categories/1')
+        .set('Authorization', fakeHeader.token)
+        .set('Auth-Schema', fakeHeader.schema)
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toEqual({})
+      expect(mockedCategoryService.deleteCategory).toHaveBeenCalledTimes(1)
+      expect(mockedCategoryService.deleteCategory).toBeCalledWith(1)
+    })
   })
 
   test('Endpoint GET /api/client/v1.0/categories', async () => {

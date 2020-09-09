@@ -127,6 +127,11 @@ const routes: Array<RouteOptions> = [
       },
       handle: categoryController.adminUpdateCategory,
     },
+    delete: {
+      title: '删除分类',
+      schema: AUTH_SCHEMA.ADMIN,
+      handle: categoryController.adminDeleteCategory,
+    },
   },
 ]
 

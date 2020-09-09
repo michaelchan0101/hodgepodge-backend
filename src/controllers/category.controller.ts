@@ -21,4 +21,8 @@ export default {
       sort,
     })
   },
+  async adminDeleteCategory(ctx: Context) {
+    await categoryService.deleteCategory(string2number(ctx.params.id))
+    ctx.body = {}
+  },
 }
