@@ -31,6 +31,7 @@ describe('ArticleController', () => {
     expect(mockedAdminService.loginAdmin).toHaveBeenCalledTimes(1)
     expect(mockedAdminService.loginAdmin).toBeCalledWith(req.username, req.password)
   })
+
   test('Endpoint GET /api/admin/v1.0/admins', async () => {
     mockedAdminService.createAdmin.mockResolvedValueOnce(fakeAdminResp)
     const req = {
@@ -46,5 +47,17 @@ describe('ArticleController', () => {
     expect(response.body).toEqual(fakeAdminResp)
     expect(mockedAdminService.createAdmin).toHaveBeenCalledTimes(1)
     expect(mockedAdminService.createAdmin).toBeCalledWith(req.username, req.password)
+  })
+
+  test('Endpoint DELETE /api/admin/v1.0/admins/:id', async () => {
+    mockedAdminService.deleteAdmin.mockResolvedValueOnce(undefined)
+    const response: any = await request(app)
+      .delete('/api/admin/v1.0/admins/1')
+      .set('Authorization', fakeHeader.token)
+      .set('Auth-Schema', fakeHeader.schema)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({})
+    expect(mockedAdminService.deleteAdmin).toHaveBeenCalledTimes(1)
+    expect(mockedAdminService.deleteAdmin).toBeCalledWith(1)
   })
 })

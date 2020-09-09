@@ -35,6 +35,14 @@ const routes: Array<RouteOptions> = [
     },
   },
   {
+    path: 'admins/:id(\\d+)',
+    delete: {
+      title: '删除管理员',
+      schema: AUTH_SCHEMA.ADMIN,
+      handle: adminController.deleteAdmin,
+    },
+  },
+  {
     path: 'articles',
     get: {
       title: '文章列表',
