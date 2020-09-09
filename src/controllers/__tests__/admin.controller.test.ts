@@ -60,4 +60,19 @@ describe('ArticleController', () => {
     expect(mockedAdminService.deleteAdmin).toHaveBeenCalledTimes(1)
     expect(mockedAdminService.deleteAdmin).toBeCalledWith(1)
   })
+
+  test('Endpoint PATCH /api/admin/v1.0/admins/:id/password', async () => {
+    const req = { password: '123456' }
+    mockedAdminService.updateAdminPassword.mockResolvedValueOnce(fakeAdminResp)
+    const response: any = await request(app)
+      .patch('/api/admin/v1.0/admins/1/password')
+      .set('Authorization', fakeHeader.token)
+      .set('Auth-Schema', fakeHeader.schema)
+      .send(req)
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual(fakeAdminResp)
+    expect(mockedAdminService.updateAdminPassword).toHaveBeenCalledTimes(1)
+    expect(mockedAdminService.updateAdminPassword).toBeCalledWith(1, req.password)
+  })
 })

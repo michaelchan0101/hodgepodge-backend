@@ -15,4 +15,11 @@ export default {
     await adminService.deleteAdmin(string2number(ctx.params.id))
     ctx.body = {}
   },
+  async updateAdminPassword(ctx: Context) {
+    const { password } = ctx.request.body
+    ctx.body = await adminService.updateAdminPassword(
+      string2number(ctx.params.id),
+      password
+    )
+  },
 }

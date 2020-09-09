@@ -43,6 +43,19 @@ const routes: Array<RouteOptions> = [
     },
   },
   {
+    path: 'admins/:id(\\d+)/password',
+    patch: {
+      title: '修改管理员密码',
+      schema: AUTH_SCHEMA.ADMIN,
+      params: {
+        body: {
+          password: Joi.string().min(6),
+        },
+      },
+      handle: adminController.updateAdminPassword,
+    },
+  },
+  {
     path: 'articles',
     get: {
       title: '文章列表',
