@@ -1,6 +1,7 @@
 import adminService from '../admin.service'
 import { AdminExistError, AdminUsernameOrPasswordError } from '@/errors'
 import fixtures from 'tests/fixtures'
+import { Admin } from '@/models'
 
 describe('AdminService', () => {
   beforeAll(async () => {
@@ -39,5 +40,11 @@ describe('AdminService', () => {
         AdminExistError
       )
     })
+  })
+
+  test('should delete admin successfully', async () => {
+    await adminService.deleteAdmin(1)
+    const admin = await Admin.findByPk(1)
+    expect(admin).toBeNull()
   })
 })

@@ -34,4 +34,9 @@ export default {
     await admin.update({ token: randomstring.generate(32) })
     return getAdminLoginResponse(admin)
   },
+  async deleteAdmin(id: number): Promise<void> {
+    const admin = await Admin.findByPk(id)
+    adminValidator(admin).exists()
+    await admin.destroy()
+  },
 }
