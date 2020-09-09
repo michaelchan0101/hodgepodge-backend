@@ -1,6 +1,6 @@
-import { Category } from '@/models'
+import { Category, Article } from '@/models'
 import { CategoryResponse, CreateCategoryRequest } from 'interfaces/category'
-import { CategoryNotFoundError } from '@/errors'
+import { CategoryNotFoundError, CategoryHasArticleError } from '@/errors'
 
 async function getCategoryById(id: number): Promise<Category> {
   const category = await Category.findByPk(id)
@@ -50,5 +50,13 @@ export default {
       sort: req.sort,
     })
     return category.getResponse()
+  },
+  async deleteCategory(id: number): Promise<void> {
+    const category = await getCategoryById(id)
+    const article = await Article.findOne({ where: { categoryId: id } })
+    if (article) {
+      throw new CategoryHasArticleError()
+    }
+    await category.destroy()
   },
 }

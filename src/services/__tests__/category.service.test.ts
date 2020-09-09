@@ -1,5 +1,7 @@
 import categoryService from 'services/category.service'
 import fixtures from 'tests/fixtures'
+import { Category } from '@/models'
+import { CategoryHasArticleError } from '@/errors'
 
 describe('CategoryService', () => {
   beforeAll(async () => {
@@ -43,5 +45,19 @@ describe('CategoryService', () => {
     expect(category.name).toEqual(data.name)
     expect(category.isShowInMenu).toEqual(data.isShowInMenu)
     expect(category.sort).toEqual(data.sort)
+  })
+
+  describe('deleteCategory()', () => {
+    test('should delete category successfully', async () => {
+      await categoryService.deleteCategory(4)
+      const category = await Category.findByPk(4)
+      expect(category).toBeNull()
+    })
+
+    test('should delete category failure', async () => {
+      await expect(categoryService.deleteCategory(1)).rejects.toThrowError(
+        CategoryHasArticleError
+      )
+    })
   })
 })
