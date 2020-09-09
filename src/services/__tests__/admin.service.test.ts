@@ -42,6 +42,13 @@ describe('AdminService', () => {
     })
   })
 
+  test('should update admin password successfully', async () => {
+    const password = '1234567'
+
+    const admin = await adminService.updateAdminPassword(1, password)
+    expect(admin.id).toEqual(1)
+  })
+
   test('should delete admin successfully', async () => {
     await adminService.deleteAdmin(1)
     const admin = await Admin.findByPk(1)

@@ -39,4 +39,14 @@ export default {
     adminValidator(admin).exists()
     await admin.destroy()
   },
+  async updateAdminPassword(id: number, password: string): Promise<AdminResponse> {
+    const admin = await Admin.findByPk(id)
+    adminValidator(admin).exists()
+    const passwordSalt = randomstring.generate(32)
+    await admin.update({
+      password: encryptPassword(password, passwordSalt),
+      passwordSalt,
+    })
+    return getAdminResponse(admin)
+  },
 }
