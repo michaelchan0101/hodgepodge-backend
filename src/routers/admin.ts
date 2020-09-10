@@ -22,6 +22,11 @@ const routes: Array<RouteOptions> = [
   },
   {
     path: 'admins',
+    get: {
+      title: '管理员列表',
+      schema: AUTH_SCHEMA.ADMIN,
+      handle: adminController.listAdmins,
+    },
     post: {
       title: '创建管理员',
       schema: AUTH_SCHEMA.ADMIN,

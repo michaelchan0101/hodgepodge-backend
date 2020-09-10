@@ -7,6 +7,9 @@ export default {
     const { username, password } = ctx.request.body
     ctx.body = await adminService.loginAdmin(username, password)
   },
+  async listAdmins(ctx: Context) {
+    ctx.body = await adminService.listAdmins()
+  },
   async createAdmin(ctx: Context) {
     const { username, password } = ctx.request.body
     ctx.body = await adminService.createAdmin(username, password)

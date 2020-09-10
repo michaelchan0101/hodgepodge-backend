@@ -33,6 +33,18 @@ describe('ArticleController', () => {
   })
 
   test('Endpoint GET /api/admin/v1.0/admins', async () => {
+    mockedAdminService.listAdmins.mockResolvedValueOnce(fakeAdminResp)
+    const response: any = await request(app)
+      .get('/api/admin/v1.0/admins')
+      .set('Authorization', fakeHeader.token)
+      .set('Auth-Schema', fakeHeader.schema)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual(fakeAdminResp)
+    expect(mockedAdminService.listAdmins).toHaveBeenCalledTimes(1)
+    expect(mockedAdminService.listAdmins).toBeCalledWith()
+  })
+
+  test('Endpoint POST /api/admin/v1.0/admins', async () => {
     mockedAdminService.createAdmin.mockResolvedValueOnce(fakeAdminResp)
     const req = {
       username: 'admin',
