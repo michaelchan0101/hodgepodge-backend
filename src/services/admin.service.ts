@@ -34,6 +34,14 @@ export default {
     await admin.update({ token: randomstring.generate(32) })
     return getAdminLoginResponse(admin)
   },
+  async listAdmins(): Promise<{ admins: Array<AdminResponse> }> {
+    const admins = await Admin.findAll({
+      order: [['id', 'DESC']],
+    })
+    return {
+      admins: admins.map(admin => getAdminResponse(admin)),
+    }
+  },
   async deleteAdmin(id: number): Promise<void> {
     const admin = await Admin.findByPk(id)
     adminValidator(admin).exists()

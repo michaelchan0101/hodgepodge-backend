@@ -8,6 +8,13 @@ describe('AdminService', () => {
     await fixtures.reloadFixtures()
   })
 
+  test('should list admins successfully', async () => {
+    const results = await adminService.listAdmins()
+    expect(results.admins).toHaveLength(2)
+    expect(results.admins[0].id).toEqual(2)
+    expect(results.admins[1].id).toEqual(1)
+  })
+
   describe('Login Admin', () => {
     const username = 'user1'
     test('should successfully', async () => {
