@@ -33,7 +33,7 @@ export default {
       where,
       limit,
       offset,
-      order: [['id', 'DESC']],
+      order: [['createdAt', 'DESC']],
     })
     return {
       articles: articles.map((article: Article) => article.getResponse()),
